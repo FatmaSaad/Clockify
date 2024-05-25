@@ -1,0 +1,264 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel Clock-in worker",
+        "description": "Clock-in worker",
+        "contact": {
+            "email": "fatmasaad313@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/clock-ins/{user_id}": {
+            "get": {
+                "tags": [
+                    "clock-ins"
+                ],
+                "summary": "Get User Clock Ins",
+                "description": "Returns list of Clock Ins",
+                "operationId": "getUserClockIns",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user_id": {
+                                            "title": "user_id",
+                                            "description": "user_id",
+                                            "format": "int64",
+                                            "default": 1
+                                        },
+                                        "lat": {
+                                            "title": "lat",
+                                            "description": "lat",
+                                            "format": "string",
+                                            "default": "30.04938057206335"
+                                        },
+                                        "lon": {
+                                            "title": "lon",
+                                            "description": "lon",
+                                            "format": "string",
+                                            "default": "31.240298953189804"
+                                        },
+                                        "timestamp": {
+                                            "title": "timestamp",
+                                            "description": "timestamp",
+                                            "format": "integer",
+                                            "default": "1716001402"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/clock-ins": {
+            "post": {
+                "tags": [
+                    "clock-ins"
+                ],
+                "summary": "Store new clock-in",
+                "description": "Returns clock-in data",
+                "operationId": "storeClockIn",
+                "parameters": [
+                    {
+                        "name": "worker_id",
+                        "in": "query",
+                        "description": "worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "description": "lat",
+                        "required": true,
+                        "schema": {
+                            "type": "decimal"
+                        }
+                    },
+                    {
+                        "name": "lon",
+                        "in": "query",
+                        "description": "lon",
+                        "required": true,
+                        "schema": {
+                            "type": "decimal"
+                        }
+                    },
+                    {
+                        "name": "timestamp",
+                        "in": "query",
+                        "description": "timestamp",
+                        "required": true,
+                        "schema": {
+                            "type": "unix timestamp"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "worker_id": {
+                                        "title": "worker_id",
+                                        "description": "worker_id",
+                                        "format": "int64",
+                                        "default": 1
+                                    },
+                                    "lat": {
+                                        "title": "lat",
+                                        "description": "lat",
+                                        "format": "string",
+                                        "default": "30.04938057206335"
+                                    },
+                                    "lon": {
+                                        "title": "lon",
+                                        "description": "lon",
+                                        "format": "string",
+                                        "default": "31.240298953189804"
+                                    },
+                                    "timestamp": {
+                                        "title": "timestamp",
+                                        "description": "timestamp",
+                                        "format": "integer",
+                                        "default": "1716001402"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user_id": {
+                                            "title": "user_id",
+                                            "description": "user_id",
+                                            "format": "int64",
+                                            "default": 1
+                                        },
+                                        "lat": {
+                                            "title": "lat",
+                                            "description": "lat",
+                                            "format": "string",
+                                            "default": "30.04938057206335"
+                                        },
+                                        "lon": {
+                                            "title": "lon",
+                                            "description": "lon",
+                                            "format": "string",
+                                            "default": "31.240298953189804"
+                                        },
+                                        "timestamp": {
+                                            "title": "timestamp",
+                                            "description": "timestamp",
+                                            "format": "integer",
+                                            "default": "1716001402"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "The request was well-formed but there is validation error"
+                    },
+                    "403": {
+                        "description": "Forbidden, the distance is out of range."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ClockIn": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "ClockIn"
+                    },
+                    "errors": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "user_id": {
+                                        "title": "user_id",
+                                        "description": "user_id",
+                                        "format": "int64",
+                                        "default": 1
+                                    },
+                                    "lat": {
+                                        "title": "lat",
+                                        "description": "lat",
+                                        "format": "string",
+                                        "default": "30.04938057206335"
+                                    },
+                                    "lon": {
+                                        "title": "lon",
+                                        "description": "lon",
+                                        "format": "string",
+                                        "default": "31.240298953189804"
+                                    },
+                                    "timestamp": {
+                                        "title": "timestamp",
+                                        "description": "timestamp",
+                                        "format": "integer",
+                                        "default": "1716001402"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ClockIn"
+                }
+            }
+        }
+    }
+}
